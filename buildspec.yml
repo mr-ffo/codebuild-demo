@@ -19,6 +19,7 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Running tests or build steps if any...
+       - npm test
       # If your app needs a build step, uncomment below
       # - npm run build
 
