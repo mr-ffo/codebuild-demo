@@ -1,5 +1,3 @@
-
-
 version: 0.2
 
 phases:
@@ -7,11 +5,29 @@ phases:
     runtime-versions:
       nodejs: 18
     commands:
-      - echo "Installing dependencies"
+      - echo Initializing environment
+      # Get CodeArtifact token
+      - export CODEARTIFACT_AUTH_TOKEN=`aws codeartifact get-authorization-token --domain favour --domain-owner 300042230375 --region us-east-1 --query authorizationToken --output text`
+      # Get repository endpoint
+      - export CODEARTIFACT_REPO_URL=`aws codeartifact get-repository-endpoint --domain favour --domain-owner 300042230375 --repository devopscode --format npm --region us-east-1 --query repositoryEndpoint --output text`
+      # Configure npm to use CodeArtifact
+      - npm config set //$(echo $CODEARTIFACT_REPO_URL | sed 's|^https://||'):_authToken $CODEARTIFACT_AUTH_TOKEN
+      - echo Installing dependencies from CodeArtifact...
       - npm install
+
   build:
     commands:
-      - echo "No build step required for this project"
+      - echo Build started on `date`
+      - echo Running tests or build steps if any...
+      # If your app needs a build step, uncomment below
+      # - npm run build
+
+  post_build:
+    commands:
+      - echo Build completed on `date`
+      - echo Preparing artifact...
+
 artifacts:
   files:
     - '**/*'
+  discard-paths: no
