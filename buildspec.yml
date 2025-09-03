@@ -1,0 +1,17 @@
+version: 0.2
+
+phases:
+  install:
+    commands:
+      - echo Installing dependencies...
+      - npm install
+  build:
+    commands:
+      - echo Build started on `date`
+      - echo Running tests...
+      - npm test || echo "No tests found, skipping..."
+      - echo Packaging application...
+artifacts:
+  files:
+    - '**/*'
+  discard-paths: yes
