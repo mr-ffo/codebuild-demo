@@ -18,8 +18,8 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - echo Running tests or build steps if any...
-       - npm test
+      - echo Running tests...
+      - npm test
       # If your app needs a build step, uncomment below
       # - npm run build
 
@@ -31,4 +31,6 @@ phases:
 artifacts:
   files:
     - '**/*'
+    - appspec.yml
+    - scripts/**/*
   discard-paths: no
